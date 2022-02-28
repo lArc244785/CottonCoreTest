@@ -53,7 +53,15 @@ public class Hook : MonoBehaviour
 
     }
 
+    public void Reset(Transform parent)
+    {
+        transform.parent = parent;
 
+        transform.localPosition = Vector2.zero;
+        transform.localRotation = Quaternion.identity;
+
+        m_rig2D.velocity = Vector2.zero;
+    }
 
 
 

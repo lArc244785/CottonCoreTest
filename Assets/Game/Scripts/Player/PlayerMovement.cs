@@ -31,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     private GroundSensor m_groundSensor;
     private bool m_isGroundSensorOn;
 
+    [Header("DirSensor")]
+    [SerializeField]
+    private DirSensor m_dirSensor;
+   
+
     private enum State
     {
         E_GROUND, E_AREA
@@ -46,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
         m_reboundDir = Vector2.zero;
 
         m_groundSensor.init();
+        m_dirSensor.init();
+
         m_isGroundSensorOn = false;
     }
 
@@ -53,7 +60,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move()
     {
-        m_rig2D.AddForce(m_moveDir * m_moveSpeed);
+        if (!m_dirSensor.isCheak(m_moveDir))
+        {
+            m_rig2D.AddForce(m_moveDir * m_moveSpeed);
+        }
+
     }
 
     public void Jump()

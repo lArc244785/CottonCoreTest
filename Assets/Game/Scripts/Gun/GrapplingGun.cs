@@ -34,7 +34,8 @@ public class GrapplingGun : MonoBehaviour
     private float m_pullFrequency;
     [SerializeField]
     private float m_cancelMaxClampLength;
-
+    [SerializeField]
+    private float m_ropeMaxDistance;
 
 
 
@@ -64,6 +65,8 @@ public class GrapplingGun : MonoBehaviour
 
         m_hook.Fire(dir);
         m_ropeRenderer.isDraw = true;
+
+        StartCoroutine(hookDistanceChack());
     }
 
     public void Grappling()
@@ -82,7 +85,7 @@ public class GrapplingGun : MonoBehaviour
 
     public void Cancel()
     {
-        HookReset();
+        m_hook.Reset(m_firePoint);
         JointDisable();
 
 
@@ -93,13 +96,6 @@ public class GrapplingGun : MonoBehaviour
     }
 
 
-    private void HookReset()
-    {
-        m_hook.transform.parent = m_firePoint;
-        m_hook.transform.localPosition = Vector3.zero;
-        m_hook.transform.localRotation = Quaternion.identity;
-    }
-
     private void JointDisable()
     {
         m_springJoint2D.enabled = false;
@@ -107,7 +103,16 @@ public class GrapplingGun : MonoBehaviour
         m_springRig2D.velocity = Vector2.ClampMagnitude(m_springRig2D.velocity, m_cancelMaxClampLength);
     }
 
+    private bool isRopeDistanceMax
+    {
+        get
+        {
+            if (getHookDistance() >= m_ropeMaxDistance)
+                return true;
 
+            return false;
+        }
+    }
 
 
     public void Pull()
@@ -142,6 +147,17 @@ public class GrapplingGun : MonoBehaviour
         return Vector2.Distance(m_hook.transform.position, m_springRig2D.transform.position);
     }
 
+    private IEnumerator hookDistanceChack()
+    {
+        while(m_eState == E_State.E_HOOKFIRE && !isRopeDistanceMax)
+        {
+            yield return null;
+        }
 
+        if (isRopeDistanceMax)
+            Cancel();
+
+            
+    }
 
 }
