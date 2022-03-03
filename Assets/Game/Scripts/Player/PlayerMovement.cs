@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float m_moveSpeed;
     private float m_moveDir;
+    private float m_lastDir;
+
 
     [SerializeField]
     private float m_jumpPower;
@@ -18,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private float m_clampX;
+
+    private bool m_isMoveAble;
 
     [Header("RopeMovement Parameter")]
     [SerializeField]
@@ -33,7 +37,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("DirSensor")]
     [SerializeField]
     private DirSensor m_dirSensor;
-   
+
+    [Header("ReboundEventOption")]
+    [SerializeField]
+    private float m_reboundX;
+    [SerializeField]
+    private float m_reboundEventTime;
 
     public void init(Rigidbody2D rig2D)
     {
@@ -44,13 +53,14 @@ public class PlayerMovement : MonoBehaviour
 
         m_groundSensor.init();
         m_dirSensor.init();
-
+        m_isMoveAble = true;
     }
 
 
 
     public void Move()
     {
+
         if (!m_dirSensor.isWall(m_moveDir))
         {
             m_rig2D.velocity = new Vector2(m_moveDir * m_moveSpeed, m_rig2D.velocity.y);
@@ -96,15 +106,38 @@ public class PlayerMovement : MonoBehaviour
 
     public void UpdateProcess()
     {
-
-        Move();
-        MoveClamp();
+        if(m_isMoveAble)
+        {
+            Move();
+            MoveClamp();
+        }
 
     }
 
 
+    public void ReboundEvent()
+    {
+        m_isMoveAble = false;
 
+        float xVelocity = m_reboundX;
+        if (m_rig2D.velocity.x < 0.0f)
+            xVelocity *= -1.0f;
 
+        m_rig2D.velocity = new Vector2(xVelocity, m_rig2D.velocity.y);
+        StartCoroutine(ReboundEventCoroutine());
+    }
+
+    private IEnumerator ReboundEventCoroutine()
+    {
+        float fTime = .0f;
+
+        while(!m_dirSensor.isWall(m_lastDir) && fTime <= m_reboundEventTime)
+        {
+            fTime += Time.deltaTime;
+            yield return null;
+        }
+        m_isMoveAble = true;
+    }
 
 
     public float moveDirX
@@ -112,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
         set
         {
             m_moveDir = value;
+            if (m_moveDir > 0.0f || m_moveDir < 0.0f)
+                m_lastDir = m_moveDir;
         }
         get
         {
@@ -119,6 +154,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public bool isMoveAble
+    {
+        get
+        {
+            return m_isMoveAble;
+        }
+    }
 
 
 }

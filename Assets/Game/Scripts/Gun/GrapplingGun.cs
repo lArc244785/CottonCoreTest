@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GrapplingGun : MonoBehaviour
 {
@@ -36,8 +37,11 @@ public class GrapplingGun : MonoBehaviour
     private float m_cancelMaxClampLength;
     [SerializeField]
     private float m_ropeMaxDistance;
+    [SerializeField]
+    private GrapplingRebound m_rebound;
 
-
+    [SerializeField]
+    private UnityEvent m_reboundEvent;
 
     public enum E_State
     {
@@ -50,6 +54,7 @@ public class GrapplingGun : MonoBehaviour
     public void init()
     {
         m_hook.init(m_hookSpeed, this);
+        m_rebound.init();
     }
 
     public void Fire()
@@ -86,12 +91,17 @@ public class GrapplingGun : MonoBehaviour
 
     public void Cancel()
     {
-        m_hook.Reset(m_firePoint);
+
         JointDisable();
-
-
-
         m_ropeRenderer.isDraw = false;
+
+
+        if(m_eState == E_State.E_GRAPPLING && m_rebound.isRebound((Vector2)m_hook.transform.position))
+        {
+            m_reboundEvent.Invoke();
+        }
+
+        m_hook.Reset(m_firePoint);
 
         m_eState = GrapplingGun.E_State.E_NONE;
     }

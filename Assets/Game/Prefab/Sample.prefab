@@ -124,6 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5928864862473428509}
   - component: {fileID: 5928864862473428506}
+  - component: {fileID: 1558965346}
   m_Layer: 0
   m_Name: GrpplingGun
   m_TagString: Untagged
@@ -175,7 +176,40 @@ MonoBehaviour:
   m_pullFrequency: 2.5
   m_cancelMaxClampLength: 50
   m_ropeMaxDistance: 15
+  m_rebound: {fileID: 1558965346}
+  m_reboundEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5928864863052229236}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: ReboundEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_eState: 0
+--- !u!114 &1558965346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5928864862473428508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95b39bc86a4eb845b845071deb80009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playerTr: {fileID: 5928864863052229239}
+  m_notXReboundAngleRange: 10
+  m_drawRange: 1
+  m_isDebugDraw: 1
+  m_gizomColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &5928864862558606503
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5928864863052229238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.98, y: -15.25, z: 0}
+  m_LocalPosition: {x: 0, y: -14.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5928864864287294332}
@@ -435,6 +469,8 @@ MonoBehaviour:
   m_reboundPower: 1500
   m_groundSensor: {fileID: 5928864863149168584}
   m_dirSensor: {fileID: 5928864863159000619}
+  m_reboundX: 10
+  m_reboundEventTime: 0.5
 --- !u!114 &5928864863052229233
 MonoBehaviour:
   m_ObjectHideFlags: 0
