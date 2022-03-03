@@ -931,6 +931,7 @@ MonoBehaviour:
   m_nomalMovement: {fileID: 524773459}
   m_shoulderMovement: {fileID: 524773458}
   m_rig2D: {fileID: 524773455}
+  m_grapplingShooter: {fileID: 0}
 --- !u!114 &524773458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e779e0161723edb41a49a110b1014662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_moveSpeed: 6
+  m_moveSpeed: 10
   m_jumpPower: 500
   m_maxJumpCount: 1
   m_clampX: 10
@@ -2426,7 +2427,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13.197852
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2502,7 +2503,7 @@ MonoBehaviour:
   m_pullMaxClampLength: 100
   m_pullFrequency: 2.5
   m_cancelMaxClampLength: 50
-  m_ropeMaxDistance: 15
+  m_ropeMaxDistance: 20
   m_eState: 0
 --- !u!1 &1109233096
 GameObject:
@@ -3078,8 +3079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145cbd68c310a8748b125fede6c695e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startTr: {fileID: 524773454}
-  m_endTr: {fileID: 1520212107}
+  m_boxSize: {x: 0, y: 0}
   m_layerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -3286,6 +3286,9 @@ MonoBehaviour:
   m_groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  m_randingEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1788730044
 GameObject:
   m_ObjectHideFlags: 0
