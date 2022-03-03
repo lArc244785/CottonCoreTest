@@ -41,11 +41,13 @@ public class RopeRenderer : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if(isDraw)
+        if (isDraw)
             Draw();
     }
+
+
 
     public void Draw()
     {

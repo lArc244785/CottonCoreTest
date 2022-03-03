@@ -109,6 +109,9 @@ public class ShoulderMovement : MonoBehaviour
     {
         m_lookPosition = pos;
         m_currentType = Type.E_POSITION;
+
+        CalcurationRotation(m_lookPosition);
+        UpdateShoulder();
     }
 
 

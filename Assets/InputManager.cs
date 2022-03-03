@@ -24,12 +24,8 @@ public class InputManager : SingleToon<InputManager>
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(m_playerMovementManager.currentType == PlayerMovementManager.E_MOVEMENT_TYPE.E_NOMAL)
-        {
-            Vector2 moveDir = context.ReadValue<Vector2>();
-            moveDir *= Vector2.right;
-            m_playerMovementManager.nomalMovement.moveDir = moveDir;
-        }
+        Vector2 moveDir = context.ReadValue<Vector2>();
+        m_playerMovementManager.nomalMovement.moveDirX = moveDir.x;
     }
 
 

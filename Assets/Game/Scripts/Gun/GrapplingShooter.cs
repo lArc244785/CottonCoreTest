@@ -15,7 +15,8 @@ public class GrapplingShooter : MonoBehaviour
 
     public void Fire()
     {
-        m_grpplingGun.Fire();
+        if(m_grpplingGun.m_eState == GrapplingGun.E_State.E_NONE)
+            m_grpplingGun.Fire();
     }
 
     public void Pull()
@@ -33,6 +34,14 @@ public class GrapplingShooter : MonoBehaviour
         get
         {
             return m_grpplingGun.m_eState != GrapplingGun.E_State.E_NONE;
+        }
+    }
+
+    public bool isGrapplingFireAction
+    {
+        get
+        {
+            return m_grpplingGun.m_eState == GrapplingGun.E_State.E_HOOKFIRE;
         }
     }
 }

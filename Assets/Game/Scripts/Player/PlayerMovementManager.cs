@@ -11,6 +11,8 @@ public class PlayerMovementManager : MonoBehaviour
     private ShoulderMovement m_shoulderMovement;
     [SerializeField]
     private Rigidbody2D m_rig2D;
+    [SerializeField]
+    private GrapplingShooter m_grapplingShooter;
 
     public enum E_MOVEMENT_TYPE
     {
@@ -40,7 +42,7 @@ public class PlayerMovementManager : MonoBehaviour
         {
             m_nomalMovement.UpdateProcess();
         }
-        m_shoulderMovement.UpdateProcess();
+            m_shoulderMovement.UpdateProcess();
     }
 
     public E_MOVEMENT_TYPE currentType

@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("NomalMovement Parameter")]
     [SerializeField]
     private float m_moveSpeed;
-    private Vector2 m_moveDir;
+    private float m_moveDir;
 
     [SerializeField]
     private float m_jumpPower;
@@ -29,40 +29,31 @@ public class PlayerMovement : MonoBehaviour
     [Header("GroundSensor")]
     [SerializeField]
     private GroundSensor m_groundSensor;
-    private bool m_isGroundSensorOn;
 
     [Header("DirSensor")]
     [SerializeField]
     private DirSensor m_dirSensor;
    
 
-    private enum State
-    {
-        E_GROUND, E_AREA
-    }
-
-    private State m_currentState;
-
     public void init(Rigidbody2D rig2D)
     {
         m_currentJump = 0;
         m_rig2D = rig2D;
-        m_moveDir = Vector2.zero;
+        m_moveDir = .0f;
         m_reboundDir = Vector2.zero;
 
         m_groundSensor.init();
         m_dirSensor.init();
 
-        m_isGroundSensorOn = false;
     }
 
 
 
     public void Move()
     {
-        if (!m_dirSensor.isCheak(m_moveDir))
+        if (!m_dirSensor.isWall(m_moveDir))
         {
-            m_rig2D.AddForce(m_moveDir * m_moveSpeed);
+            m_rig2D.velocity = new Vector2(m_moveDir * m_moveSpeed, m_rig2D.velocity.y);
         }
 
     }
@@ -74,11 +65,12 @@ public class PlayerMovement : MonoBehaviour
 
         m_rig2D.AddForce(Vector2.up * m_jumpPower);
 
-        m_currentState = State.E_AREA;
-
-        Invoke("GroundSensorOn", 0.1f); 
-
         m_currentJump++;
+    }
+
+    public void JumpReset()
+    {
+        m_currentJump = 0;
     }
 
     public void Rebound(bool isRight)
@@ -108,30 +100,14 @@ public class PlayerMovement : MonoBehaviour
         Move();
         MoveClamp();
 
-        if (m_currentState == State.E_AREA)
-        {
-            //공중인지 땅인지 체크
-            if(m_isGroundSensorOn && m_groundSensor.isGround())
-            {
-                m_currentJump = 0;
-                m_currentState = State.E_GROUND;
-                m_isGroundSensorOn = false;
-            }
-        }
-
-        
-
     }
 
 
 
-    private void GroundSensorOn()
-    {
-        m_isGroundSensorOn = true;
-    }
 
 
-    public Vector2 moveDir
+
+    public float moveDirX
     {
         set
         {

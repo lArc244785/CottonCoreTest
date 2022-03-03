@@ -54,9 +54,10 @@ public class GrapplingGun : MonoBehaviour
 
     public void Fire()
     {
+        
         m_eState = E_State.E_HOOKFIRE;
 
-        m_hook.transform.parent = null;
+
 
         Vector2 dir = InputManager.Instance.inGameMousePosition2D - (Vector2)m_hook.transform.position;
         dir.Normalize();

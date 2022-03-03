@@ -28,6 +28,11 @@ public class Hook : MonoBehaviour
 
     public void Fire(Vector2 dir)
     {
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+
+        transform.parent = null;
+
         m_dir = dir;
         m_rig2D.velocity = m_dir * m_speed;
 
