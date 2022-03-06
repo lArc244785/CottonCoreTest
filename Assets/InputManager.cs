@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class InputManager : SingleToon<InputManager>
 {
 
-
+    [SerializeField]
+    private Camera m_brainCam;
     [SerializeField]
     PlayerMovementManager m_playerMovementManager;
     [SerializeField]
@@ -90,7 +91,7 @@ public class InputManager : SingleToon<InputManager>
     {
         get
         {
-            return (Vector2)Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            return (Vector2)m_brainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         }
     }
 }
