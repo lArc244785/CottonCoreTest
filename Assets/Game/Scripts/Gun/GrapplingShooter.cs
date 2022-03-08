@@ -29,11 +29,11 @@ public class GrapplingShooter : MonoBehaviour
         m_grpplingGun.Cancel();
     }
 
-    public bool isGrapplingAction
+    public bool isGrappling
     {
         get
         {
-            return m_grpplingGun.m_eState != GrapplingGun.E_State.E_NONE;
+            return m_grpplingGun.m_eState == GrapplingGun.E_State.E_GRAPPLING;
         }
     }
 
@@ -44,4 +44,7 @@ public class GrapplingShooter : MonoBehaviour
             return m_grpplingGun.m_eState == GrapplingGun.E_State.E_HOOKFIRE;
         }
     }
+
+
+
 }

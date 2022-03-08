@@ -11,7 +11,7 @@ public class DirSensor : MonoBehaviour
 
     private float m_distance;
 
-    public void init()
+    public void Init()
     {
         m_distance = transform.localPosition.x;
     }
@@ -29,7 +29,7 @@ public class DirSensor : MonoBehaviour
         }
     }
 
-    public bool isWall(float xDir)
+    public Collider2D getWall(float xDir)
     {
 
         if (xDir > .0f)
@@ -37,10 +37,12 @@ public class DirSensor : MonoBehaviour
         else if (xDir < .0f)
             distance = m_distance * -1.0f;
 
-        if (Physics2D.BoxCast(transform.position, m_boxSize, .0f, Vector2.zero, .0f, m_layerMask))
-            return true;
+        RaycastHit2D hit2D = Physics2D.BoxCast(transform.position, m_boxSize, .0f, Vector2.zero, .0f, m_layerMask);
 
-        return false;
+        if (hit2D.collider != null)
+            return hit2D.collider;
+
+        return null;
     }
 
 

@@ -16,9 +16,10 @@ public class GrapplingGun : MonoBehaviour
     private RopeRenderer m_ropeRenderer;
     [SerializeField]
     private Transform m_firePoint;
-    [SerializeField]
+
+
+
     private SpringJoint2D m_springJoint2D;
-    [SerializeField]
     private Rigidbody2D m_springRig2D;
 
 
@@ -53,6 +54,9 @@ public class GrapplingGun : MonoBehaviour
 
     public void init()
     {
+        m_springJoint2D = m_playerMovementManager.ropeMovement.SpringJoint2D;
+        m_springRig2D = m_playerMovementManager.rig2D;
+
         m_hook.init(m_hookSpeed, this);
         m_rebound.init();
     }
@@ -128,11 +132,14 @@ public class GrapplingGun : MonoBehaviour
 
     public void Pull()
     {
+        m_eState = GrapplingGun.E_State.E_PULL;
         StartCoroutine(PullProcesses());
     }
 
     private IEnumerator PullProcesses()
     {
+        m_playerMovementManager.isControl = false;
+
         m_springJoint2D.distance = m_pullDistance;
         m_springJoint2D.frequency = m_pullFrequency;
 
@@ -150,7 +157,8 @@ public class GrapplingGun : MonoBehaviour
             m_springRig2D.velocity = Vector2.zero;
             m_springJoint2D.frequency = 0.0f;
         }
-
+        m_eState = GrapplingGun.E_State.E_GRAPPLING;
+        m_playerMovementManager.isControl = true;
     }
 
     private float getHookDistance()

@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField]
-    PlayerMovement pm;
+    PlayerMovementManager m_pmm;
     [SerializeField]
     Animator ani;
 
 
     private void Update()
     {
-        float move = Mathf.Abs(pm.moveDirX);
+        Debug.Log(gameObject.name);
+        float move = Mathf.Abs(m_pmm.moveDir.x);
 
         ani.SetFloat("Move", move);
     }

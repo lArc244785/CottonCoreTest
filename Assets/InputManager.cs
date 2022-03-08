@@ -26,7 +26,7 @@ public class InputManager : SingleToon<InputManager>
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 moveDir = context.ReadValue<Vector2>();
-        m_playerMovementManager.nomalMovement.moveDirX = moveDir.x;
+        m_playerMovementManager.moveDir = moveDir;
 
     }
 
@@ -36,23 +36,41 @@ public class InputManager : SingleToon<InputManager>
     {
         if (context.started)
         {
+            if (!m_playerMovementManager.isControl)
+                return;
+
             m_shooter.Fire();
         }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (m_playerMovementManager.currentType == PlayerMovementManager.E_MOVEMENT_TYPE.E_NOMAL && context.started)
+        if (context.started)
         {
-            m_playerMovementManager.nomalMovement.Jump();
+            if (!m_playerMovementManager.isControl)
+                return;
+
+            if (m_playerMovementManager.currentType == PlayerMovementManager.MOVEMENT_TYPE.NOMAL)
+            {
+                m_playerMovementManager.nomalMovement.Jump();
+            }
+            else if(m_playerMovementManager.currentType == PlayerMovementManager.MOVEMENT_TYPE.CLIMBING)
+            {
+                m_playerMovementManager.climbingMovement.Jump();
+            }
         }
+
     }
 
     public void OnPull(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            m_shooter.Pull();
+            if (!m_playerMovementManager.isControl)
+                return;
+
+            if (m_shooter.isGrappling)
+                m_shooter.Pull();
         }
     }
 
@@ -60,6 +78,9 @@ public class InputManager : SingleToon<InputManager>
     {
         if (context.started)
         {
+            if (!m_playerMovementManager.isControl)
+                return;
+
             m_shooter.Cancel();
             m_playerMovementManager.setTypeNomal();
             m_playerMovementManager.shoulderMovement.SetMouse();
@@ -68,21 +89,48 @@ public class InputManager : SingleToon<InputManager>
 
     public void OnRightRebound(InputAction.CallbackContext context)
     {
-        if (m_playerMovementManager.currentType == PlayerMovementManager.E_MOVEMENT_TYPE.E_GRAPPLING && 
-            m_shooter.isGrapplingAction &&
+        if (m_playerMovementManager.currentType == PlayerMovementManager.MOVEMENT_TYPE.ROPE &&
+            m_shooter.isGrappling &&
             context.started)
         {
-            m_playerMovementManager.nomalMovement.Rebound(true);
+            if (!m_playerMovementManager.isControl)
+                return;
+
+
+            if (m_playerMovementManager.ropeMovement.isReboundAble)
+                m_playerMovementManager.ropeMovement.Rebound(true);
         }
     }
 
     public void OnLeftRebound(InputAction.CallbackContext context)
     {
-        if (m_playerMovementManager.currentType == PlayerMovementManager.E_MOVEMENT_TYPE.E_GRAPPLING &&
-            m_shooter.isGrapplingAction &&
+        if (m_playerMovementManager.currentType == PlayerMovementManager.MOVEMENT_TYPE.ROPE &&
+            m_shooter.isGrappling &&
             context.started)
         {
-            m_playerMovementManager.nomalMovement.Rebound(false);
+            if (!m_playerMovementManager.isControl)
+                return;
+
+            if (m_playerMovementManager.ropeMovement.isReboundAble)
+                m_playerMovementManager.ropeMovement.Rebound(false);
+        }
+    }
+
+    public void OnClimbing(InputAction.CallbackContext context)
+    {
+        if (!m_playerMovementManager.isControl)
+            return;
+
+        if (!context.canceled)
+        {
+            if (m_playerMovementManager.currentType == PlayerMovementManager.MOVEMENT_TYPE.NOMAL &&
+                m_playerMovementManager.isClimbingAble)
+                m_playerMovementManager.currentType = PlayerMovementManager.MOVEMENT_TYPE.CLIMBING;
+        }
+        else
+        {
+            if (m_playerMovementManager.currentType == PlayerMovementManager.MOVEMENT_TYPE.CLIMBING)
+                m_playerMovementManager.currentType = PlayerMovementManager.MOVEMENT_TYPE.NOMAL;
         }
     }
 
@@ -95,4 +143,3 @@ public class InputManager : SingleToon<InputManager>
         }
     }
 }
-  

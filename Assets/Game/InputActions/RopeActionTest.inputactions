@@ -60,6 +60,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Climbing",
+                    "type": "Button",
+                    "id": "5a1a8811-015f-4a43-9dba-c709d9e3be06",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -302,6 +310,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftRebound",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f905cc2-44a9-4673-b651-c2792440ee63",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Climbing",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
