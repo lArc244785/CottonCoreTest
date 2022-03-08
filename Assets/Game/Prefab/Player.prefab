@@ -1126,6 +1126,7 @@ MonoBehaviour:
   m_dirSensor: {fileID: 148518295704145401}
   m_groundSensor: {fileID: 148518295714759706}
   m_climbingSensor: {fileID: 3204200011430227068}
+  m_rig2D: {fileID: 148518295810701735}
 --- !u!114 &148518295810701731
 MonoBehaviour:
   m_ObjectHideFlags: 0

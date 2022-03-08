@@ -35,6 +35,7 @@ public class PlayerMovementManager : MonoBehaviour
     private bool m_control;
 
     private float m_defaultGravityScale;
+    [SerializeField]
     private Rigidbody2D m_rig2D;
     public enum MOVEMENT_TYPE
     {
@@ -47,7 +48,6 @@ public class PlayerMovementManager : MonoBehaviour
 
     private void Init()
     {
-        m_rig2D = GetComponent<Rigidbody2D>();
         m_defaultGravityScale = m_rig2D.gravityScale;
 
         m_dirSensor.Init();
